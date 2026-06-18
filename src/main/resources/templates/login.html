@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ログイン</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+            flex-direction: column;
+        }
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .container {
+            background-color: white;
+            padding: 40px;
+            border: 1px solid #ddd;
+            width: 300px;
+        }
+        label {
+            font-size: 13px;
+            color: #333;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 15px 0;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        .btn-submit {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .error {
+            color: red;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>ログイン</h1>
+    <div class="container">
+        <p class="error" th:if="${errorMessage}" th:text="${errorMessage}"></p>
+        <form th:action="@{/login}" method="post">
+            <label>ユーザー名</label>
+            <input type="text" name="username">
+            <label>パスワード</label>
+            <input type="password" name="password">
+            <button type="submit" class="btn-submit">ログイン</button>
+        </form>
+    </div>
+</body>
+</html>

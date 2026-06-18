@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ユーザ登録</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 40px;
+            border: 1px solid #ddd;
+            width: 300px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        label {
+            font-size: 13px;
+            color: #333;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 15px 0;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        .btn-submit {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .login-link {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #007bff;
+            font-size: 13px;
+        }
+        .error {
+            color: red;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ユーザ登録</h1>
+        <p class="error" th:if="${errorMessage}" th:text="${errorMessage}"></p>
+        <form th:action="@{/register}" method="post">
+            <label>ユーザ名（半角英字）</label>
+            <input type="text" name="username">
+            <label>パスワード（半角英数字）</label>
+            <input type="password" name="password">
+            <button type="submit" class="btn-submit">登録</button>
+        </form>
+        <a href="/login" class="login-link">ログインはこちら</a>
+    </div>
+</body>
+</html>

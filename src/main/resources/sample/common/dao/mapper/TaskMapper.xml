@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    <mapper namespace="sample.common.dao.mapper.TaskMapper">
+    <select id="all" resultType="Task">
+    SELECT *, created_at AS createdAt, updated_at AS updatedAt, 
+	start_date AS startDate, end_date AS endDate 
+	FROM tasks WHERE username = #{username}
+    </select>
+    <select id="single" resultType="Task">
+    SELECT *, created_at AS createdAt, updated_at AS updatedAt, 
+	start_date AS startDate, end_date AS endDate 
+	FROM tasks WHERE id = #{id}
+    </select>
+    <insert id="create">
+    INSERT INTO tasks(username,title,content,name,start_date) VALUES (#{username},#{title},#{content},#{name},#{startDate});
+    VALUES (#{username},#{title},#{content},#{name},#{startDate},#{endDate});
+    </insert>
+    <update id="update">
+    UPDATE tasks SET title = #{title},content = #{content},name = #{name},start_date = #{startDate}, end_date = #{endDate} WHERE id = #{id};
+    </update>
+    <delete id="delete">
+    DELETE FROM tasks WHERE id = #{id};
+    </delete>
+    </mapper>
