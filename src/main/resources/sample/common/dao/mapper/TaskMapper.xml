@@ -13,9 +13,9 @@
 	FROM tasks WHERE id = #{id}
     </select>
     <insert id="create">
-    INSERT INTO tasks(username,title,content,name,start_date) VALUES (#{username},#{title},#{content},#{name},#{startDate});
-    VALUES (#{username},#{title},#{content},#{name},#{startDate},#{endDate});
-    </insert>
+	INSERT INTO tasks(username,title,content,name,start_date,end_date)
+	VALUES (#{username},#{title},#{content},#{name},#{startDate},#{endDate});
+	</insert>
     <update id="update">
     UPDATE tasks SET title = #{title},content = #{content},name = #{name},start_date = #{startDate}, end_date = #{endDate} WHERE id = #{id};
     </update>
