@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>エラーが発生しました</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            padding: 50px;
+            color: #333;
+        }
+        h1 {
+            font-size: 28px;
+            color: #dc3545;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+        .btn-back {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>システムエラーまたはページが見つかりません</h1>
+    <p>申し訳ありません。リクエストの処理中にエラーが発生したか、指定されたページが存在しません。</p>
+    <a href="/tasks" class="btn-back">タスク一覧に戻る</a>
+</body>
+</html>

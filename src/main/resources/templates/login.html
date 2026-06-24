@@ -54,14 +54,15 @@
 <body>
     <h1>ログイン</h1>
     <div class="container">
-        <p class="error" th:if="${errorMessage}" th:text="${errorMessage}"></p>
-        <form th:action="@{/login}" method="post">
-            <label>ユーザー名</label>
-            <input type="text" name="username">
-            <label>パスワード</label>
-            <input type="password" name="password">
-            <button type="submit" class="btn-submit">ログイン</button>
-        </form>
+        <p class="error" th:if="${param.error}">ユーザー名またはパスワードが違います</p>
+		<form th:action="@{/login}" method="post">
+		    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+		    <label>ユーザー名</label>
+		    <input type="text" name="username">
+		    <label>パスワード</label>
+		    <input type="password" name="password">
+		    <button type="submit" class="btn-submit">ログイン</button>
+		</form>
     </div>
 </body>
 </html>

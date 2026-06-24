@@ -71,6 +71,31 @@
             padding: 15px;
             border-left: 4px solid #007bff;
         }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+        .pagination li {
+            margin: 0 5px;
+        }
+        .pagination a {
+            color: #007bff;
+            padding: 8px 16px;
+            text-decoration: none;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .pagination li.active th\:block, .pagination a.active {
+            background-color: #007bff;
+            color: white;
+            border: 1px solid #007bff;
+        }
+        .pagination a:hover:not(.active) {
+            background-color: #ddd;
+        }
     </style>
 </head>
 <body>
@@ -78,29 +103,50 @@
     <div class="empty-msg" th:if="${#lists.isEmpty(tasks)}">
         <p>現在タスクは登録されていません。「新規作成」から追加してください。</p>
     </div>
-    <table th:if="${!#lists.isEmpty(tasks)}">
-        <tr>
-            <th>ID</th><th>タイトル</th><th>内容</th><th>登録者</th>
-            <th>開始日</th><th>終了日</th><th>作成日時</th><th>更新日時</th><th>操作</th>
-        </tr>
-        <tr th:each="task : ${tasks}">
-            <td th:text="${task.id}"></td>
-            <td th:text="${task.title}"></td>
-            <td th:text="${task.content}"></td>
-            <td th:text="${task.name}"></td>
-            <td th:text="${task.startDate}"></td>
-            <td th:text="${task.endDate}"></td>
-			<td th:text="${#temporals.format(task.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
-			<td th:text="${#temporals.format(task.updatedAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
-            <td>
-                <a th:href="@{/tasks/edit/{id}(id=${task.id})}"><button class="btn-edit">編集</button></a>
-                <form th:action="@{/tasks/delete/{id}(id=${task.id})}" method="post"
-                      onsubmit="return confirm('本当に削除しますか？')" style="display:inline;">
-                    <button type="submit" class="btn-delete">削除</button>
-                </form>
-            </td>
-        </tr>
-    </table>
+    
+    <div th:if="${!#lists.isEmpty(tasks)}">
+        <table>
+            <tr>
+                <th>No.</th><th>タイトル</th><th>内容</th><th>登録者</th>
+                <th>開始日</th><th>終了日</th><th>作成日時</th><th>更新日時</th><th>操作</th>
+            </tr>
+            <tr th:each="task, stat : ${tasks}">
+                <td th:text="${(currentPage - 1) * 10 + stat.count}"></td>
+                
+                <td th:text="${task.title}"></td>
+                <td th:text="${task.content}"></td>
+                <td th:text="${task.name}"></td>
+                <td th:text="${task.startDate}"></td>
+                <td th:text="${task.endDate}"></td>
+                <td th:text="${#temporals.format(task.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td th:text="${task.createdAt.equals(task.updatedAt)} ? '-' : ${#temporals.format(task.updatedAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td>
+                    <a th:href="@{/tasks/edit/{id}(id=${task.id})}"><button class="btn-edit">編集</button></a>
+                    <form th:action="@{/tasks/delete/{id}(id=${task.id})}" method="post"
+                          onsubmit="return confirm('本当に削除しますか？')" style="display:inline;">
+                        <button type="submit" class="btn-delete">削除</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+
+        <ul class="pagination">
+            <li th:if="${currentPage > 1}">
+                <a th:href="@{/tasks(page=${currentPage - 1})}">&laquo; 前へ</a>
+            </li>
+            
+            <li th:each="i : ${#numbers.sequence(1, totalPages)}">
+                <a th:href="@{/tasks(page=${i})}" 
+                   th:text="${i}" 
+                   th:classappend="${i == currentPage} ? 'active' : ''"></a>
+            </li>
+            
+            <li th:if="${currentPage < totalPages}">
+                <a th:href="@{/tasks(page=${currentPage + 1})}">次へ &raquo;</a>
+            </li>
+        </ul>
+    </div>
+
     <div class="bottom-bar">
         <a href="/logout" onclick="return confirm('ログアウトしますか？')"><button class="btn-logout">ログアウト</button></a>
         <a href="/tasks/new"><button class="btn-new">＋新規作成</button></a>

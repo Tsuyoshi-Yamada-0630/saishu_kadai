@@ -2,11 +2,17 @@ package sample.common.dao.entity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 public class Task {
     private Long id;
     private String username;
+    @NotBlank(message = "タイトルを入力してください")
+    @Size(max = 50, message = "タイトルは50文字以内で入力してください")
     private String title;
+
+    @Size(max = 200, message = "内容は200文字以内で入力してください")
     private String content;
     private String name;
     private LocalDate startDate;

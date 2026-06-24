@@ -17,7 +17,7 @@ public class LoginServiceImpl implements LoginService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public boolean Login(String username, String password) {
+    public boolean login(String username, String password) {
         Login loginUser = loginMapper.findByUsername(username);
         if (loginUser == null) {
             return false;
@@ -27,7 +27,7 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public boolean Register(String username, String password) {
+    public boolean register(String username, String password) {
         if (username.isEmpty() || password.isEmpty()) {
             return false;
         }
