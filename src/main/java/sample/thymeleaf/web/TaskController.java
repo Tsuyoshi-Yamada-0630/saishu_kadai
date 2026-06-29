@@ -14,13 +14,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import sample.common.dao.entity.Task;
+import sample.common.exception.TaskNotFoundException;
 import sample.common.service.TaskService;
 
 @Controller
 public class TaskController {
 
-    @Autowired
-    private TaskService taskService;
+    private final TaskService taskService;
+
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
+    }
 
     @RequestMapping(value = "/tasks", method = RequestMethod.GET)
     public ModelAndView all(@RequestParam(value = "page", defaultValue = "1") int page, @AuthenticationPrincipal UserDetails userDetails) {
@@ -76,6 +80,11 @@ public class TaskController {
         ModelAndView mv = new ModelAndView();
         String username = userDetails.getUsername();
         Task task = taskService.single(id, username);
+
+        if (task == null) {
+            throw new TaskNotFoundException(id);
+        }
+
         mv.addObject("task", task);
         mv.setViewName("tasks/form-edit");
         return mv;

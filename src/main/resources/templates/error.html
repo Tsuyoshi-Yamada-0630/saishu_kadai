@@ -31,8 +31,9 @@
     </style>
 </head>
 <body>
-    <h1>システムエラーまたはページが見つかりません</h1>
-    <p>申し訳ありません。リクエストの処理中にエラーが発生したか、指定されたページが存在しません。</p>
-    <a href="/tasks" class="btn-back">タスク一覧に戻る</a>
+	<h1>システムエラーまたはページが見つかりません</h1>
+	<p th:if="${message}" th:text="${message}"></p>
+	<p th:unless="${message}">申し訳ありません。リクエストの処理中にエラーが発生したか、指定されたページが存在しません。</p>
+	<a href="/tasks" class="btn-back">タスク一覧に戻る</a>
 </body>
 </html>

@@ -3,18 +3,22 @@ package sample.common.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;  // ← 追加
 import sample.common.dao.entity.Login;
 import sample.common.dao.mapper.LoginMapper;
+import sample.common.form.RegisterForm;
 import sample.common.service.LoginService;
 
 @Service
 public class LoginServiceImpl implements LoginService {
 
-    @Autowired
-    private LoginMapper loginMapper;
+    private final LoginMapper loginMapper;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    public LoginServiceImpl(LoginMapper loginMapper, PasswordEncoder passwordEncoder) {
+        this.loginMapper = loginMapper;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public boolean login(String username, String password) {
@@ -22,23 +26,20 @@ public class LoginServiceImpl implements LoginService {
         if (loginUser == null) {
             return false;
         }
-        // BCryptで比較（平文 vs ハッシュ化済み）
         return passwordEncoder.matches(password, loginUser.getPassword());
     }
 
     @Override
-    public boolean register(String username, String password) {
-        if (username.isEmpty() || password.isEmpty()) {
-            return false;
-        }
-        Login existUser = loginMapper.findByUsername(username);
+    @Transactional  
+    public boolean register(RegisterForm form) {
+        
+        Login existUser = loginMapper.findByUsername(form.getUsername());
         if (existUser != null) {
             return false;
         }
         Login login = new Login();
-        login.setUsername(username);
-        // パスワードをハッシュ化して保存
-        login.setPassword(passwordEncoder.encode(password));
+        login.setUsername(form.getUsername());
+        login.setPassword(passwordEncoder.encode(form.getPassword()));
         loginMapper.insert(login);
         return true;
     }

@@ -28,10 +28,11 @@
     </insert>
 
     <update id="update">
-        UPDATE tasks SET title = #{title}, content = #{content}, name = #{name}, 
-        start_date = #{startDate}, end_date = #{endDate} 
-        WHERE id = #{id} AND username = #{username};
-    </update>
+    UPDATE tasks SET title = #{title}, content = #{content}, name = #{name},
+    start_date = #{startDate}, end_date = #{endDate},
+    updated_at = CURRENT_TIMESTAMP
+    WHERE id = #{id} AND username = #{username};
+	</update>
 
     <delete id="delete">
         DELETE FROM tasks WHERE id = #{id} AND username = #{username};

@@ -12,8 +12,11 @@ import sample.common.service.TaskService;
 @Transactional
 public class TaskServiceImpl implements TaskService {
 
-    @Autowired
-    private TaskMapper taskMapper;
+    private final TaskMapper taskMapper;
+
+    public TaskServiceImpl(TaskMapper taskMapper) {
+        this.taskMapper = taskMapper;
+    }
     
     @Override
     @Transactional(readOnly = true)
